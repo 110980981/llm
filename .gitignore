@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# GGUF models (large binary files)
+*.gguf
+
+# llama.cpp server (binaries + DLLs)
+llama/
+
+# Temp files
+*.log
+*.txt
+*.secret_key
+
+# Open WebUI data
+.open-webui/
+
+# Open WebUI secret key
+.webui_secret_key
+
+# Environment / IDE
+.env
+.idea/
+.vscode/
+*.swp
+
+# Diagnostic
+diag.py
