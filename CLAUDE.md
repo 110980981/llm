@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-本地部署 LLM（通过 llama.cpp），前端使用 Open WebUI。
+本地部署 LLM（通过 llama.cpp），前端使用 Open WebUI。所有外部依赖（llama.cpp、GGUF 模型）均在首次启动时自动下载。
 
 ## Architecture
 
@@ -12,15 +12,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 llm/
 ├── frontend/
 │   └── cli.py             # 交互式 CLI 客户端（备用）
-├── llama/
-│   └── llama-server.exe   # llama.cpp 服务器（带 CUDA 支持）
-├── models.json            # 模型配置（唯一数据源）
-├── select_model.py        # 模型选择交互脚本
+├── llama/                 # 由 bootstrap.py 自动生成
+│   └── llama-server.exe   # llama.cpp 服务器（自动下载，CUDA/CPU）
+├── models.json            # 模型配置（唯一数据源，含下载 URL）
+├── select_model.py        # 模型选择 + 自动下载
+├── bootstrap.py           # 自动下载 llama.cpp（版本检测 + CUDA 检测）
 ├── start.bat              # 一键启动（唯一入口）
 ├── cli.bat                # 启动 CLI（备用前端）
 ├── server.bat             # 仅启动后端（调试用）
 ├── webui.bat              # 仅启动 WebUI（调试用）
-└── *.gguf                 # GGUF 模型文件（项目根目录）
+└── *.gguf                 # GGUF 模型文件（自动下载到项目根目录）
 ```
 
 - **用户 → Open WebUI → llama.cpp**: Open WebUI 通过 `OPENAI_BASE_URL` 连接到 `http://127.0.0.1:11434/v1`（OpenAI 兼容 API）
@@ -29,9 +30,26 @@ llm/
 
 ## Model Selection
 
-模型配置统一在 `models.json` 中维护。新增模型只需在其中添加一项，确保 GGUF 文件在项目根目录。
+模型配置统一在 `models.json` 中维护。新增模型只需在其中添加一项。
 
 启动时通过 `start.bat` 或直接运行 `select_model.py` 选择模型。选择后 llama-server 直接加载对应的 GGUF 文件。
+
+### Auto-Download
+
+如果模型项包含 `url` 字段且 GGUF 文件不存在，选择时会自动提示下载：
+
+```json
+{
+    "name": "qwen3-8b",
+    "desc": "Qwen3-8B-Instruct (通用)",
+    "gguf": "Qwen_Qwen3-8B-Q4_K_M.gguf",
+    "url": "https://huggingface.co/bartowski/Qwen_Qwen3-8B-GGUF/resolve/main/Qwen_Qwen3-8B-Q4_K_M.gguf"
+}
+```
+
+### MoE 模型
+
+MoE 模型需要添加 `"moe": true`，启动时会自动设置 `--n-cpu-moe 32 --no-warmup` 参数。
 
 ## Key llama.cpp Flags
 
@@ -100,6 +118,17 @@ for chunk in resp:
 
 关闭终端窗口即自动停止所有进程，无需手动清理。
 
+## Bootstrap
+
+`bootstrap.py` 在 `start.bat` / `server.bat` 启动时自动运行，负责下载 `llama-server.exe`。
+
+工作流程：
+1. 检测 CUDA 版本（通过 `nvidia-smi`）
+2. 查询 GitHub API 获取最新 release tag
+3. 下载对应平台的 zip（CUDA 11/12/13 或 CPU AVX2）
+4. 解压到 `llama/` 目录
+5. 如已存在则跳过（可用于版本升级时手动删除 exe 后重跑）
+
 ## Open WebUI 配置
 
 Open WebUI 关键环境变量（设置于 `start.bat`）：
@@ -128,8 +157,9 @@ docker run -d -p 3000:8080 \
 
 ## Add a New Model
 
-1. 下载 GGUF 文件放到项目根目录
-2. 在 `models.json` 中添加一项，包含 `name`、`desc`、`gguf`（文件名）
+1. 在 `models.json` 中添加一项，包含 `name`、`desc`、`gguf`（文件名）
+2. 可选：添加 `url` 字段（Hugging Face 直链）以启用自动下载
+3. 可选：MoE 模型添加 `"moe": true`
 
 ## Notes
 
@@ -137,4 +167,4 @@ docker run -d -p 3000:8080 \
 - **Open WebUI** 是默认前端，启动后访问 `http://localhost:8080`
 - **CLI（备用）**: 运行 `cli.bat` 使用终端交互
 - **调试**: 如果 server 已在运行，可直接运行 `webui.bat` 单独启动 WebUI
-- 目前使用 llama.cpp b9089（CUDA 13.1 版本），如需升级重新下载对应 release 替换 `llama/` 目录下的文件
+- **升级 llama.cpp**: 修改 `bootstrap.py` 中的 `FALLBACK_TAG`，或直接删除 `llama/` 目录后重新运行（自动获取最新版）

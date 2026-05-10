@@ -16,10 +16,6 @@ set HF_ENDPOINT=https://hf-mirror.com
 
 :: Web search
 set ENABLE_WEB_SEARCH=true
-set WEB_SEARCH_ENGINE=brave
-set SEARXNG_QUERY_URL=https://searx.si/search
-set SERPER_API_KEY=6160279de21992120478ef6afafdc74b01594b64
-set BRAVE_SEARCH_API_KEY=BSAIAWmFnzCa0dnSTWARR65WUPUu2EN
 
 echo Starting Open WebUI...
 echo.

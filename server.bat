@@ -1,6 +1,15 @@
 @echo off
 title llama.cpp Server
 
+:: Bootstrap: auto-download external dependencies (llama.cpp)
+echo [0/2] Checking dependencies...
+python "%~dp0bootstrap.py"
+if errorlevel 1 (
+    echo Failed to setup llama.cpp. Check your internet connection.
+    pause
+    exit /b 1
+)
+
 :: Kill existing llama-server and free ports
 taskkill /F /IM llama-server.exe >nul 2>&1
 for /f "tokens=5" %%a in ('netstat -ano ^| findstr :11434') do (

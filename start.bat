@@ -1,6 +1,15 @@
 @echo off
 title LLM llama.cpp
 
+:: Bootstrap: auto-download external dependencies (llama.cpp)
+echo [0/3] Checking dependencies...
+python "%~dp0bootstrap.py"
+if errorlevel 1 (
+    echo Failed to setup llama.cpp. Check your internet connection.
+    pause
+    exit /b 1
+)
+
 :: Cleanup from previous runs
 taskkill /F /IM llama-server.exe >nul 2>&1
 for /f "tokens=5" %%a in ('netstat -ano ^| findstr :11434') do (
@@ -60,12 +69,8 @@ set OPENAI_API_BASE_URLS=http://127.0.0.1:11434/v1
 set OPENAI_API_KEYS=not-needed
 set HF_ENDPOINT=https://hf-mirror.com
 
-:: Web search - enable and configure engines
+:: Web search
 set ENABLE_WEB_SEARCH=true
-set WEB_SEARCH_ENGINE=brave
-set SEARXNG_QUERY_URL=https://searx.si/search
-set SERPER_API_KEY=6160279de21992120478ef6afafdc74b01594b64
-set BRAVE_SEARCH_API_KEY=BSAIAWmFnzCa0dnSTWARR65WUPUu2EN
 
 echo Starting Open WebUI at http://localhost:8080 ...
 start "" http://localhost:8080
