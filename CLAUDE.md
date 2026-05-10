@@ -138,11 +138,9 @@ Open WebUI 关键环境变量（设置于 `start.bat`）：
 | `OPENAI_API_BASE_URLS` | `http://127.0.0.1:11434/v1` | llama.cpp API 端点 |
 | `OPENAI_API_KEYS` | `not-needed` | 占位符（llama.cpp 不校验 key） |
 | `ENABLE_WEB_SEARCH` | `true` | 启用联网搜索 |
-| `WEB_SEARCH_ENGINE` | `brave` | 默认搜索引擎 |
+| `WEB_SEARCH_ENGINE` | `searxng` | 默认搜索引擎 |
 | `HF_ENDPOINT` | `https://hf-mirror.com` | Hugging Face 国内镜像 |
-| `SERPER_API_KEY` | `...` | Serper API key |
-| `BRAVE_SEARCH_API_KEY` | `...` | Brave Search API key |
-| `SEARXNG_QUERY_URL` | `https://searx.si/search` | SearXNG 实例地址 |
+| `SEARXNG_QUERY_URL` | `http://localhost:8889/search` | 本地 SearXNG 实例 |
 
 如需在 Docker 中运行 Open WebUI：
 

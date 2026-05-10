@@ -14,8 +14,10 @@ set OPENAI_API_BASE_URLS=http://127.0.0.1:11434/v1
 set OPENAI_API_KEYS=not-needed
 set HF_ENDPOINT=https://hf-mirror.com
 
-:: Web search
+:: Web search (local SearXNG)
 set ENABLE_WEB_SEARCH=true
+set WEB_SEARCH_ENGINE=searxng
+set SEARXNG_QUERY_URL=http://localhost:8889/search
 
 echo Starting Open WebUI...
 echo.
