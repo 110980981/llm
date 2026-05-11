@@ -5,6 +5,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV_DIR="$SCRIPT_DIR/.venv"
 UV="$HOME/.local/bin/uv"
 
+# Use copy mode for all uv operations (hardlinks fail under proot)
+export UV_LINK_MODE=copy
+
 if [ ! -f "$UV" ]; then
     echo "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
