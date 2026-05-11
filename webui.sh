@@ -58,7 +58,7 @@ export RAG_RERANKING_BATCH_SIZE=16
 # Web search (local SearXNG)
 export ENABLE_WEB_SEARCH=true
 export WEB_SEARCH_ENGINE=searxng
-export SEARXNG_QUERY_URL=http://localhost:8889/search
+export SEARXNG_QUERY_URL=http://localhost:8888/search
 
 echo "Starting Open WebUI..."
 echo

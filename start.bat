@@ -88,7 +88,7 @@ set RAG_RERANKING_BATCH_SIZE=16
 :: Web search (local SearXNG)
 set ENABLE_WEB_SEARCH=true
 set WEB_SEARCH_ENGINE=searxng
-set SEARXNG_QUERY_URL=http://localhost:8889/search
+set SEARXNG_QUERY_URL=http://localhost:8888/search
 
 :: Pre-load embedding model (avoids download timeout during Open WebUI startup)
 echo [3/3] Loading embedding model...

@@ -140,7 +140,7 @@ Open WebUI 关键环境变量（设置于 `start.bat`）：
 | `ENABLE_WEB_SEARCH` | `true` | 启用联网搜索 |
 | `WEB_SEARCH_ENGINE` | `searxng` | 默认搜索引擎 |
 | `HF_ENDPOINT` | `https://hf-mirror.com` | Hugging Face 国内镜像 |
-| `SEARXNG_QUERY_URL` | `http://localhost:8889/search` | 本地 SearXNG 实例 |
+| `SEARXNG_QUERY_URL` | `http://localhost:8888/search` | 本地 SearXNG 实例 |
 | `RAG_EMBEDDING_MODEL` | `BAAI/bge-m3` | 嵌入模型 |
 | `RAG_RERANKING_MODEL` | `BAAI/bge-reranker-v2-m3` | 重排序模型 |
 | `ENABLE_RAG_HYBRID_SEARCH` | `true` | 混合搜索（关键词+语义） |
