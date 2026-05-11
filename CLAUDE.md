@@ -141,6 +141,19 @@ Open WebUI 关键环境变量（设置于 `start.bat`）：
 | `WEB_SEARCH_ENGINE` | `searxng` | 默认搜索引擎 |
 | `HF_ENDPOINT` | `https://hf-mirror.com` | Hugging Face 国内镜像 |
 | `SEARXNG_QUERY_URL` | `http://localhost:8889/search` | 本地 SearXNG 实例 |
+| `RAG_EMBEDDING_MODEL` | `BAAI/bge-m3` | 嵌入模型 |
+| `RAG_RERANKING_MODEL` | `BAAI/bge-reranker-v2-m3` | 重排序模型 |
+| `ENABLE_RAG_HYBRID_SEARCH` | `true` | 混合搜索（关键词+语义） |
+
+### 文件上传 (RAG)
+
+使用 `BAAI/bge-m3` 嵌入模型 + `BAAI/bge-reranker-v2-m3` 重排序：
+
+- 上传的文件自动提取文本、分块、向量化存入 ChromaDB
+- 发送消息时检索相关块注入 prompt 的 `<source>` 标签
+- bge-m3 首次启动时自动下载（~6.4GB），`warm_embedding.py` 预加载确保就绪
+- 如果上传后 AI 看不到内容，检查 `open_webui/data/webui.db` 中 `file` 表的状态
+- 重置方法：运行 `cleanup_rag.py` 清理后重新上传文件
 
 如需在 Docker 中运行 Open WebUI：
 

@@ -14,24 +14,17 @@ set OPENAI_API_BASE_URLS=http://127.0.0.1:11434/v1
 set OPENAI_API_KEYS=not-needed
 set HF_ENDPOINT=https://hf-mirror.com
 
-:: RAG settings
-:: Embedding model (default: all-MiniLM-L6-v2, too weak for Chinese)
+:: RAG settings — bge-m3 embedding + hybrid search + reranking
 set RAG_EMBEDDING_MODEL=BAAI/bge-m3
 set RAG_EMBEDDING_MODEL_TRUST_REMOTE_CODE=true
+set RAG_EMBEDDING_MODEL_AUTO_UPDATE=false
 set RAG_EMBEDDING_BATCH_SIZE=32
-
-:: Chunking
+set SENTENCE_TRANSFORMERS_BACKEND=torch
 set CHUNK_SIZE=3000
 set CHUNK_OVERLAP=300
-
-:: Retrieval
 set RAG_TOP_K=30
 set RAG_RELEVANCE_THRESHOLD=0.2
-
-:: Hybrid search (keyword + semantic)
 set ENABLE_RAG_HYBRID_SEARCH=true
-
-:: Reranking (re-rank top results for precision)
 set RAG_RERANKING_MODEL=BAAI/bge-reranker-v2-m3
 set RAG_RERANKING_MODEL_TRUST_REMOTE_CODE=true
 set RAG_TOP_K_RERANKER=10
