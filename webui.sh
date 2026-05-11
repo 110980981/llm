@@ -33,6 +33,28 @@ export OPENAI_API_BASE_URLS=http://127.0.0.1:11434/v1
 export OPENAI_API_KEYS=not-needed
 export HF_ENDPOINT=https://hf-mirror.com
 
+# RAG settings
+export RAG_EMBEDDING_MODEL=BAAI/bge-m3
+export RAG_EMBEDDING_MODEL_TRUST_REMOTE_CODE=true
+export RAG_EMBEDDING_BATCH_SIZE=32
+
+# Chunking
+export CHUNK_SIZE=3000
+export CHUNK_OVERLAP=300
+
+# Retrieval
+export RAG_TOP_K=30
+export RAG_RELEVANCE_THRESHOLD=0.2
+
+# Hybrid search (keyword + semantic)
+export ENABLE_RAG_HYBRID_SEARCH=true
+
+# Reranking (re-rank top results for precision)
+export RAG_RERANKING_MODEL=BAAI/bge-reranker-v2-m3
+export RAG_RERANKING_MODEL_TRUST_REMOTE_CODE=true
+export RAG_TOP_K_RERANKER=10
+export RAG_RERANKING_BATCH_SIZE=16
+
 # Web search (local SearXNG)
 export ENABLE_WEB_SEARCH=true
 export WEB_SEARCH_ENGINE=searxng
