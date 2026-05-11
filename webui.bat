@@ -35,14 +35,23 @@ set ENABLE_WEB_SEARCH=true
 set WEB_SEARCH_ENGINE=searxng
 set SEARXNG_QUERY_URL=http://localhost:8888/search
 
-echo Starting Open WebUI...
+:: Launch Open WebUI in background (silent, no console window)
+echo Starting Open WebUI in background...
+powershell -NoProfile -Command "$p = Start-Process -PassThru -WindowStyle Hidden -FilePath 'open-webui' -ArgumentList 'serve'; $p.Id | Out-File -Encoding ascii -FilePath '%~dp0webui.pid'"
+
+if not exist "%~dp0webui.pid" (
+    echo Failed to start Open WebUI.
+    pause
+    exit /b 1
+)
+
+set /p PID=<"%~dp0webui.pid"
+echo Open WebUI started (PID: %PID%).
 echo.
 echo Open http://localhost:8080 in your browser.
-echo.
 echo First-time setup:
 echo   1. Register an admin account
 echo   2. The llama.cpp connection is auto-configured via OPENAI_BASE_URL
 echo.
-echo Press Ctrl+C to stop.
+echo To stop: run stop_webui.bat
 echo.
-open-webui serve
