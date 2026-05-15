@@ -33,8 +33,8 @@ export OPENAI_API_BASE_URLS=http://127.0.0.1:11434/v1
 export OPENAI_API_KEYS=not-needed
 export HF_ENDPOINT=https://hf-mirror.com
 
-# RAG settings — bge-m3 embedding + hybrid search + reranking
-export RAG_EMBEDDING_MODEL=BAAI/bge-m3
+# RAG settings — lightweight embedding + hybrid search + reranking
+export RAG_EMBEDDING_MODEL=BAAI/bge-base-zh-v1.5
 export RAG_EMBEDDING_MODEL_TRUST_REMOTE_CODE=true
 export RAG_EMBEDDING_MODEL_AUTO_UPDATE=false
 export RAG_EMBEDDING_BATCH_SIZE=32
