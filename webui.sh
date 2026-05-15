@@ -21,8 +21,8 @@ fi
 
 source "$VENV_DIR/bin/activate"
 
-# Check/install open-webui
-if ! pip show open-webui >/dev/null 2>&1; then
+# Check/install open-webui (use import check instead of pip — venv may not have pip)
+if ! python -c "import open_webui" 2>/dev/null; then
     echo "Installing Open WebUI - this may take a few minutes..."
     UV_LINK_MODE=copy "$UV" pip install --python "$VENV_DIR" open-webui
     echo
@@ -57,6 +57,10 @@ export RAG_RERANKING_MODEL_TRUST_REMOTE_CODE=true
 export RAG_TOP_K_RERANKER=10
 export RAG_RERANKING_BATCH_SIZE=16
 export RAG_SYSTEM_CONTEXT=true
+
+# Pre-load embedding model (avoids download timeout during startup)
+echo "Loading embedding model..."
+python3 "$SCRIPT_DIR/warm_embedding.py" || echo "Warning: embedding model pre-load failed"
 
 # Web search (local SearXNG)
 export ENABLE_WEB_SEARCH=true
