@@ -52,7 +52,7 @@ export RAG_RELEVANCE_THRESHOLD=0.2
 export ENABLE_RAG_HYBRID_SEARCH=true
 
 # Reranking (re-rank top results for precision)
-export RAG_RERANKING_MODEL=BAAI/bge-reranker-v2-m3
+export RAG_RERANKING_MODEL=BAAI/bge-reranker-base
 export RAG_RERANKING_MODEL_TRUST_REMOTE_CODE=true
 export RAG_TOP_K_RERANKER=10
 export RAG_RERANKING_BATCH_SIZE=16
