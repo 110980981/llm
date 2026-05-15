@@ -67,45 +67,6 @@ export ENABLE_WEB_SEARCH=true
 export WEB_SEARCH_ENGINE=searxng
 export SEARXNG_QUERY_URL=http://localhost:8888/search
 
-# Patch requests user-agent (many sites block python-requests)
-SITECUSTOMIZE="$VENV_DIR/lib/python3.12/site-packages/sitecustomize.py"
-if ! grep -q "Chrome/120" "$SITECUSTOMIZE" 2>/dev/null; then
-    python3 -c "
-import requests
-from requests.utils import default_user_agent
-
-BROWSER_UA = (
-    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
-    '(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-)
-
-original_init = requests.Session.__init__
-
-def patched_init(self, *args, **kwargs):
-    original_init(self, *args, **kwargs)
-    self.headers['User-Agent'] = BROWSER_UA
-
-requests.Session.__init__ = patched_init
-" 2>/dev/null || true
-fi
-
-# Patch requests user-agent (many sites block python-requests)
-SITECUSTOMIZE="$VENV_DIR/lib/python3.12/site-packages/sitecustomize.py"
-if [ ! -f "$SITECUSTOMIZE" ]; then
-    cat > "$SITECUSTOMIZE" << 'PYEOF'
-import requests
-BROWSER_UA = (
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-)
-original_init = requests.Session.__init__
-def patched_init(self, *args, **kwargs):
-    original_init(self, *args, **kwargs)
-    self.headers["User-Agent"] = BROWSER_UA
-requests.Session.__init__ = patched_init
-PYEOF
-fi
-
 echo "Starting Open WebUI..."
 echo
 echo "Open http://localhost:8080 in your browser."
