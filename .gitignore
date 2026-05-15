@@ -28,3 +28,6 @@ llama/
 
 # Diagnostic
 diag.py
+
+# Runtime PID files
+*.pid

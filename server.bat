@@ -36,7 +36,7 @@ echo.
 echo [1/2] Starting llama.cpp server...
 set GPU_LAYERS=99
 set SLOTS=1
-set CTX=16384
+set CTX=32768
 if /i "%MODEL_NAME%"=="qwen3-8b" set GPU_LAYERS=24
 if /i "%MODEL_NAME%"=="qwen3.6-35b" set SLOTS=1
 if /i "%MODEL_NAME%"=="qwen3.6-35b" set CTX=16384
@@ -55,5 +55,5 @@ echo.
 echo ============================================
 echo  Server ready at http://127.0.0.1:11434/v1
 echo  Run start.bat to launch Open WebUI.
-echo  Use stop.bat to stop the server.
+echo  Use stop_server.bat to stop the server.
 echo ============================================
