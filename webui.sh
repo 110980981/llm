@@ -33,12 +33,14 @@ export OPENAI_API_BASE_URLS=http://127.0.0.1:11434/v1
 export OPENAI_API_KEYS=not-needed
 export HF_ENDPOINT=https://hf-mirror.com
 
-# RAG settings — lightweight embedding + hybrid search + reranking
-export RAG_EMBEDDING_MODEL=BAAI/bge-base-zh-v1.5
-export RAG_EMBEDDING_MODEL_TRUST_REMOTE_CODE=true
-export RAG_EMBEDDING_MODEL_AUTO_UPDATE=false
-export RAG_EMBEDDING_BATCH_SIZE=32
-export SENTENCE_TRANSFORMERS_BACKEND=torch
+# RAG settings — mobile-optimized: bypass heavy embedding/reranking
+# Use full context mode so LLM gets raw search snippets directly
+export RAG_FULL_CONTEXT=true
+export BYPASS_WEB_SEARCH_WEB_LOADER=true
+export BYPASS_WEB_SEARCH_EMBEDDING_AND_RETRIEVAL=true
+
+# Short web fetch timeout (avoid waiting on blocked sites)
+export WEB_LOADER_TIMEOUT=10
 
 # Chunking
 export CHUNK_SIZE=1000
@@ -57,10 +59,6 @@ export RAG_RERANKING_MODEL_TRUST_REMOTE_CODE=true
 export RAG_TOP_K_RERANKER=10
 export RAG_RERANKING_BATCH_SIZE=16
 export RAG_SYSTEM_CONTEXT=true
-
-# Pre-load embedding model (avoids download timeout during startup)
-echo "Loading embedding model..."
-python3 "$SCRIPT_DIR/warm_embedding.py" || echo "Warning: embedding model pre-load failed"
 
 # Web search (local SearXNG)
 export ENABLE_WEB_SEARCH=true
